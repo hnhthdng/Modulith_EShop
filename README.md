@@ -3,7 +3,7 @@ EShop Modulith on .NET used Asp.Net Web API, PostgreSQL, Redis, RabbitMQ, Keyclo
 
 
 Modular Monoliths (Modulith) Architecture
-Vertical Slice Architecture (VSA)
+Vertical Slice Architecture (VSA) 
 Domain-Driven Design (DDD)
 Command Query Responsibility Segregation (CQRS)
 Outbox Pattern for Reliable Messaging
