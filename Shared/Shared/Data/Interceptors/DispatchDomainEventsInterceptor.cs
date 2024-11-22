@@ -34,7 +34,7 @@ public class DispatchDomainEventsInterceptor(IMediator mediator)
 
         aggregates.ToList().ForEach(a => a.ClearDomainEvents());
 
-        foreach (var domainEvent in domainEvents)
-            await mediator.Publish(domainEvent);
+            foreach (var domainEvent in domainEvents)
+                await mediator.Publish(domainEvent);
     }
 }
