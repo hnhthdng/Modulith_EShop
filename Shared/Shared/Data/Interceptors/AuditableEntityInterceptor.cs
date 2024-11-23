@@ -26,13 +26,13 @@ namespace Shared.Data.Interceptors
             {
                 if (entry.State == EntityState.Added)
                 {
-                    entry.Entity.CreatedBy = "mehmet";
+                    entry.Entity.CreatedBy = "Duong";
                     entry.Entity.CreatedAt = DateTime.UtcNow;
                 }
 
                 if (entry.State == EntityState.Added || entry.State == EntityState.Modified || entry.HasChangedOwnedEntities())
                 {
-                    entry.Entity.LastModifiedBy = "mehmet";
+                    entry.Entity.LastModifiedBy = "Duong";
                     entry.Entity.LastModified = DateTime.UtcNow;
                 }
             }
