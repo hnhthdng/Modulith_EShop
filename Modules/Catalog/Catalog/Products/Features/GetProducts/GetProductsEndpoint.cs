@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.Pagination;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,16 +7,15 @@ using System.Threading.Tasks;
 
 namespace Catalog.Products.Features.GetProducts
 {
-    //public record GetProductsRequest(PaginationRequest PaginationRequest);
-    public record GetProductsResponse(IEnumerable<ProductDto> Products);
+    public record GetProductsResponse(PaginatedResult<ProductDto> Products);
 
     public class GetProductsEndpoint : ICarterModule
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/products", async (ISender sender) =>
+            app.MapGet("/products", async ([AsParameters] PaginationRequest request, ISender sender) =>
             {
-                var result = await sender.Send(new GetProductsQuery());
+                var result = await sender.Send(new GetProductsQuery(request));
 
                 var response = result.Adapt<GetProductsResponse>();
 

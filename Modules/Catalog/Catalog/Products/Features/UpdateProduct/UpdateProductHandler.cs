@@ -1,4 +1,6 @@
 ﻿
+using Catalog.Products.Exceptions;
+
 namespace Catalog.Products.Features.UpdateProduct
 {
     public record UpdateProductCommand(ProductDto Product)
@@ -6,6 +8,15 @@ namespace Catalog.Products.Features.UpdateProduct
 
     public record UpdateProductResult(bool IsSuccess);
 
+    public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
+    {
+        public UpdateProductCommandValidator()
+        {
+            RuleFor(x => x.Product.Id).NotEmpty().WithMessage("Id is required");
+            RuleFor(x => x.Product.Name).NotEmpty().WithMessage("Name is required");
+            RuleFor(x => x.Product.Price).GreaterThan(0).WithMessage("Price must be greater than 0");
+        }
+    }
     internal class UpdateProductHandler(CatalogDbContext dbContext)
     : ICommandHandler<UpdateProductCommand, UpdateProductResult>
     {
@@ -16,7 +27,7 @@ namespace Catalog.Products.Features.UpdateProduct
 
             if (product is null)
             {
-                throw new Exception($"Product not found: {command.Product.Id}");
+                throw new ProductNotFoundException(command.Product.Id);
             }
 
             UpdateProductWithNewValues(product, command.Product);
