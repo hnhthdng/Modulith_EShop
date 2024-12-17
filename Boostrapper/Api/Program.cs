@@ -3,8 +3,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog((context, config) => 
     config.ReadFrom.Configuration(context.Configuration));
 
-builder.Services
-    .AddCarterWithAssemblies(typeof(CatalogModule).Assembly);
+//common services: carter, mediatr, fluentvalidation, masstransit
+var catalogAssembly = typeof(CatalogModule).Assembly;
+var basketAssembly = typeof(BasketModule).Assembly;
+
+builder.Services.AddCarterWithAssemblies(catalogAssembly, basketAssembly);
+
+builder.Services.AddMediatRWithAssemblies(catalogAssembly, basketAssembly);
+
+builder.Services.AddValidatorsFromAssemblies([catalogAssembly, basketAssembly]);
 
 builder.Services.AddCatalogModule(builder.Configuration)
                 .AddBasketModule(builder.Configuration)
