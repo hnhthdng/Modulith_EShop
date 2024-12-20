@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using Catalog.Contracts.Products.Features.GetProductById;
 
 namespace Basket.Basket.Features.AddItemIntoBasket
 {
@@ -16,19 +16,22 @@ namespace Basket.Basket.Features.AddItemIntoBasket
     }
 
     internal class AddItemIntoBasketHandler
-    (IBasketRepository repository)
+    (IBasketRepository repository, ISender sender)
     : ICommandHandler<AddItemIntoBasketCommand, AddItemIntoBasketResult>
     {
         public async Task<AddItemIntoBasketResult> Handle(AddItemIntoBasketCommand command, CancellationToken cancellationToken)
         {
             var shoppingCart = await repository.GetBasket(command.UserName, false, cancellationToken);
 
+            //Find product by id using GetProductByIdQuery
+            var result = await sender.Send(new GetProductByIdQuery(command.ShoppingCartItem.ProductId));
+
             shoppingCart.AddItem(
                                command.ShoppingCartItem.ProductId,
                                command.ShoppingCartItem.Quantity,
                                command.ShoppingCartItem.Color,
-                               command.ShoppingCartItem.Price,
-                              command.ShoppingCartItem.ProductName);
+                               result.Product.Price,
+                              result.Product.Name);
 
             await repository.SaveChangesAsync(command.UserName, cancellationToken);
 
