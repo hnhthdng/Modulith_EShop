@@ -13,6 +13,9 @@ services:
     messagebus:
         image: rabbitmq:3-management
 
+    identity:
+        image: quay.io/keycloak/keycloak:latest
+
 volumes:
     postgres_eshopdb:
 
