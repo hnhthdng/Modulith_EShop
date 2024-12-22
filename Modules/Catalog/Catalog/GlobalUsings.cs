@@ -19,3 +19,7 @@ global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Routing;
 global using Catalog.Contracts.Products.Features.GetProductById;
 global using FluentValidation;
+global using MassTransit;
+global using Shared.Messaging.Events;
+
+

@@ -1,13 +1,23 @@
-﻿using MediatR;
-
-namespace Catalog.Products.EventHandlers
+﻿namespace Catalog.Products.EventHandlers
 {
-    internal class ProductPriceChangedEventHandler(ILogger<ProductPriceChangedEventHandler> logger) : INotificationHandler<ProductPriceChangedEvent>
+    public class ProductPriceChangedEventHandler
+        (IBus bus, ILogger<ProductPriceChangedEventHandler> logger) : INotificationHandler<ProductPriceChangedEvent>
     {
-        public Task Handle(ProductPriceChangedEvent notification, CancellationToken cancellationToken)
+        public async Task Handle(ProductPriceChangedEvent notification, CancellationToken cancellationToken)
         {
             logger.LogInformation("Domain Event handled: {DomainEvent}", notification.GetType().Name);
-            return Task.CompletedTask;
+
+            var intergratedEvent = new ProductPriceChangedIntegrationEvent
+            {
+                ProductId = notification.Product.Id,
+                Name = notification.Product.Name,
+                Category = notification.Product.Category,
+                Description = notification.Product.Description,
+                ImageFile = notification.Product.ImageFile,
+                Price = notification.Product.Price 
+            };
+
+            await bus.Publish(intergratedEvent, cancellationToken);
         }
     }
 }

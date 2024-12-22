@@ -13,14 +13,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Shared.Messaging\Shared.Messaging.csproj" />
     <ProjectReference Include="..\..\..\Shared\Shared\Shared.csproj" />
     <ProjectReference Include="..\..\Catalog\Catalog.Contracts\Catalog.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Basket\EventHandlers\" />
     <Folder Include="Basket\Features\CheckoutBasket\" />
-    <Folder Include="Basket\Features\UpdateItemPriceInBasket\" />
   </ItemGroup>
 
 </Project>
