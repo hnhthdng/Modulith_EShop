@@ -16,6 +16,13 @@ services:
     identity:
         image: quay.io/keycloak/keycloak:latest
 
+    api:
+        image: ${DOCKER_REGISTRY-}api
+        build:
+            context: .
+            dockerfile: Boostrapper/Api/Dockerfile
+
 volumes:
     postgres_eshopdb:
+
 
